@@ -9,4 +9,4 @@ docker run -d \
   -e CONDUIT_TRUSTED_SERVERS="[\"conduit.rs\"]" \
   -e CONDUIT_MAX_CONCURRENT_REQUESTS="100" \
   -e CONDUIT_LOG="info,rocket=off,_=off,sled=off" \
-  --name conduit -p 80:8008 matrixconduit/matrix-conduit:latest
+  --name conduit -p 80:8008 registry.gitlab.com/famedly/conduit/matrix-conduit:latest
