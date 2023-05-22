@@ -119,7 +119,7 @@ jobs:
         with:
           api-level: 31
           target: google_apis
-          profile: "Pixel 6"
+          profile: "pixel_6"
           avd-name: pixel_6-x86_64-31
           arch: x86_64
           script: |
