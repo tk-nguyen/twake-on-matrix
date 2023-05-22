@@ -91,7 +91,6 @@ jobs:
           brew install ldns grep scrcpy ffmpeg docker
           flutter pub get && flutter pub run build_runner build --delete-conflicting-outputs
           colima start
-          flutter build apk --debug
 
       - name: Prepare homeservers
         env:
@@ -124,10 +123,10 @@ jobs:
           avd-name: pixel_6-x86_64-31
           arch: x86_64
           script: |
-            scrcpy --no-display --record video-${{ matrix.flavor }}.mkv &
+            scrcpy --no-display --record integration-test.mkv &
             flutter test integration_test --dart-define=HOMESERVER=$HOMESERVER --dart-define=USER1_NAME=$USER1_NAME --dart-define=USER2_NAME=$USER2_NAME --dart-define=USER1_PW=$USER1_PW --dart-define=USER2_PW=$USER2_PW || ( sleep 10 && exit 1 )
             # Convert the video record to mp4
-            ffmpeg -i video-${{ matrix.flavor }}.mkv -vf scale=iw/2:-2 -crf 40 -b:v 2000k -preset fast video-${{ matrix.flavor }}.mp4 || true
+            ffmpeg -i integration-test.mkv -vf scale=iw/2:-2 -crf 40 -b:v 2000k -preset fast integration-test.mp4 || true
         timeout-minutes: 30
 
       # - name: Run integration tests for Google builds
@@ -151,6 +150,7 @@ jobs:
 
       - name: Upload video
         uses: actions/upload-artifact@v3
+        if: success() || failure()
         with:
           name: integration-test-recording
-          path: video-${{ matrix.flavor }}.mp4
+          path: integration-test.mp4
