@@ -116,7 +116,7 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         # if: matrix.flavor == 'nongoogle'
         env:
-          HOMESERVER: localhost
+          HOMESERVER: 10.0.2.2
         with:
           api-level: 31
           target: google_apis
