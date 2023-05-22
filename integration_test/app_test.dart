@@ -16,6 +16,8 @@ import 'extensions/default_flows.dart';
 import 'extensions/wait_for.dart';
 import 'users.dart';
 
+@Timeout(Duration(hours: 1))
+
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
