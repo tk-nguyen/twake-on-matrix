@@ -1,3 +1,5 @@
+@Timeout(Duration(minutes: 30))
+
 import 'package:fluffychat/config/setting_keys.dart';
 import 'package:fluffychat/pages/chat/chat_view.dart';
 import 'package:fluffychat/pages/chat_list/chat_list_body.dart';
@@ -15,8 +17,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'extensions/default_flows.dart';
 import 'extensions/wait_for.dart';
 import 'users.dart';
-
-@Timeout(Duration(hours: 1))
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
