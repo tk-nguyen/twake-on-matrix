@@ -124,9 +124,14 @@ jobs:
           avd-name: pixel_6-x86_64-31
           arch: x86_64
           script: |
-            scrcpy --no-display --record "integration-test-$HOMESERVER_TYPE".mkv &
+            scrcpy --no-display --record integration-test-"$HOMESERVER_TYPE".mkv &
             flutter test integration_test --dart-define=HOMESERVER="$HOMESERVER_IP" --dart-define=USER1_NAME="$USER1_NAME" --dart-define=USER2_NAME="$USER2_NAME" --dart-define=USER1_PW="$USER1_PW" --dart-define=USER2_PW="$USER2_PW"
         timeout-minutes: 30
+
+      - name: Convert video format to mp4
+        env:
+          HOMESERVER_TYPE: ${{ matrix.homeserver }}
+        run: ffmpeg -i integration-test-"$HOMESERVER_TYPE".mkv -vf scale=iw/2:-2 -crf 40 -b:v 2000k -preset fast integration-test-"$HOMESERVER_TYPE".mp4 || true
 
       # - name: Run integration tests for Google builds
       #   uses: reactivecircus/android-emulator-runner@v2
@@ -152,4 +157,4 @@ jobs:
         if: success() || failure()
         with:
           name: integration-test-recording
-          path: integration-test*.mkv
+          path: integration-test*.mp4
