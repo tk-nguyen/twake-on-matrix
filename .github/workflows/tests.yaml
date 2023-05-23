@@ -88,7 +88,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          brew install ldns grep scrcpy ffmpeg docker
+          brew install ldns grep scrcpy docker
           flutter pub get && flutter pub run build_runner build --delete-conflicting-outputs
           colima start
 
@@ -115,7 +115,8 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         # if: matrix.flavor == 'nongoogle'
         env:
-          HOMESERVER: 10.0.2.2
+          HOMESERVER_IP: 10.0.2.2
+          HOMESERVER_TYPE: ${{ matrix.homeserver }}
         with:
           api-level: 31
           target: google_apis
@@ -123,10 +124,8 @@ jobs:
           avd-name: pixel_6-x86_64-31
           arch: x86_64
           script: |
-            scrcpy --no-display --record integration-test.mkv &
-            flutter test integration_test --dart-define=HOMESERVER=$HOMESERVER --dart-define=USER1_NAME=$USER1_NAME --dart-define=USER2_NAME=$USER2_NAME --dart-define=USER1_PW=$USER1_PW --dart-define=USER2_PW=$USER2_PW || ( sleep 10 && exit 1 )
-            # Convert the video record to mp4
-            ffmpeg -i integration-test.mkv -vf scale=iw/2:-2 -crf 40 -b:v 2000k -preset fast integration-test.mp4 || true
+            scrcpy --no-display --record "integration-test-$HOMESERVER_TYPE".mkv &
+            flutter test integration_test --dart-define=HOMESERVER="$HOMESERVER_IP" --dart-define=USER1_NAME="$USER1_NAME" --dart-define=USER2_NAME="$USER2_NAME" --dart-define=USER1_PW="$USER1_PW" --dart-define=USER2_PW="$USER2_PW"
         timeout-minutes: 30
 
       # - name: Run integration tests for Google builds
@@ -153,4 +152,4 @@ jobs:
         if: success() || failure()
         with:
           name: integration-test-recording
-          path: integration-test.mp4
+          path: integration-test*.mkv
