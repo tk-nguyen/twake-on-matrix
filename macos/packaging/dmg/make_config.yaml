@@ -9,4 +9,4 @@ contents:
     type: file
     path: "Twake.app"
 code-sign:
-  signing-identity: "@@IDENTITY@@"
+  signing-identity: "Developer ID Application: Linagora"

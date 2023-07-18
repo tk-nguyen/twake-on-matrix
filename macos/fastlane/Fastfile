@@ -26,10 +26,10 @@ platform :macos do
       skip_provisioning_profiles: true
     )
   end
-  desc "Sync distribution signing certificates"
-  lane :sync_dist do
+  desc "Sync developer ID signing certificates"
+  lane :sync_dev_id do
     sync_code_signing(
-      type: "appstore",
+      type: "developer_id",
       git_private_key: ENV["APPLE_CERTIFICATES_SSH_KEY"],
       skip_provisioning_profiles: true
     )
