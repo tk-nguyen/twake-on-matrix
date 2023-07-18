@@ -140,12 +140,19 @@ jobs:
         shell: bash
 
       - name: Prepare files for release
+        env:
+          APPLE_KEY_ID: ${{ secrets.APPLE_KEY_ID }}
+          APPLE_ISSUER_ID: ${{ secrets.APPLE_ISSUER_ID }}
+          APPLE_KEY_CONTENT: ${{ secrets.APPLE_KEY_CONTENT }}
         run: |
           case "$RUNNER_OS" in
             Linux)
               cp dist/*/* "twake-$GITHUB_REF_NAME-linux-amd64.AppImage";;
             macOS)
-              cp dist/*/* "twake-$GITHUB_REF_NAME-macos-amd64.dmg";;
+              cp dist/*/* "twake-$GITHUB_REF_NAME-macos-amd64.dmg"
+              # Notarize the app
+              cd macos && bundle exec fastlane notarization
+              ;;
             Windows)
               cp dist/*/* "twake-$GITHUB_REF_NAME-windows-amd64.exe";;
           esac
