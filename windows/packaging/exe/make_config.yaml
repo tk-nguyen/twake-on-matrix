@@ -5,7 +5,7 @@ publisher: Linagora
 publisher_url: https://github.com/linagora/twake-on-matrix
 display_name: Twake
 create_desktop_icon: true
-install_dir_name: Twake
+install_dir_name: "{autopf}"
 script_template: inno_setup.iss
 locales:
   - en

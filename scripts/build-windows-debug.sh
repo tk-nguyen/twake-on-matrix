@@ -7,5 +7,6 @@ flutter build windows --profile -v
 
 # Building libolm
 echo "Building libolm."
-git clone https://gitlab.matrix.org/matrix-org/olm.git
+LIBOLM_VERSION=3.2.15
+git clone https://gitlab.matrix.org/matrix-org/olm.git -b "$LIBOLM_VERSION"
 (cd olm; cmake . -Bbuild; cmake --build build)
