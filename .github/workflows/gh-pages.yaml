@@ -37,7 +37,10 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_KEY }}
 
       - name: Setup Nix (to build libolm)
-        uses: cachix/install-nix-action@v19
+        uses: cachix/install-nix-action@v22
+
+      - name: Setup Nix cache
+        uses: DeterminateSystems/magic-nix-cache-action@main
 
       - name: Build libolm
         run: |
