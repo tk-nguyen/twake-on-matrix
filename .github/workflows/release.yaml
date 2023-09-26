@@ -9,81 +9,81 @@ env:
 name: Release app
 
 jobs:
-  release_mobile:
-    name: Release on mobile stores
-    runs-on: ${{ matrix.runner }}
-    environment: prod
+  # release_mobile:
+  #   name: Release on mobile stores
+  #   runs-on: ${{ matrix.runner }}
+  #   environment: prod
 
-    strategy:
-      matrix:
-        include:
-          - os: android
-            runner: ubuntu-latest
-          - os: ios
-            runner: macos-latest
-      fail-fast: false
+  #   strategy:
+  #     matrix:
+  #       include:
+  #         - os: android
+  #           runner: ubuntu-latest
+  #         - os: ios
+  #           runner: macos-latest
+  #     fail-fast: false
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v3
 
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
-          channel: "stable"
-          cache: true
-          cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:-${{ hashFiles('**/pubspec.lock') }}"
+  #     - name: Setup Flutter
+  #       uses: subosito/flutter-action@v2
+  #       with:
+  #         flutter-version: ${{ env.FLUTTER_VERSION }}
+  #         channel: "stable"
+  #         cache: true
+  #         cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:-${{ hashFiles('**/pubspec.lock') }}"
 
-      - uses: webfactory/ssh-agent@v0.8.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_KEY }}
+  #     - uses: webfactory/ssh-agent@v0.8.0
+  #       with:
+  #         ssh-private-key: ${{ secrets.SSH_KEY }}
 
-      - name: Setup Fastlane
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: "ruby"
-          bundler-cache: true
-          working-directory: ${{ matrix.os }}
+  #     - name: Setup Fastlane
+  #       uses: ruby/setup-ruby@v1
+  #       with:
+  #         ruby-version: "ruby"
+  #         bundler-cache: true
+  #         working-directory: ${{ matrix.os }}
 
-      - name: Setup Java
-        if: matrix.os == 'android'
-        uses: actions/setup-java@v3
-        with:
-          distribution: "temurin" # See 'Supported distributions' for available options
-          java-version: "11"
+  #     - name: Setup Java
+  #       if: matrix.os == 'android'
+  #       uses: actions/setup-java@v3
+  #       with:
+  #         distribution: "temurin" # See 'Supported distributions' for available options
+  #         java-version: "11"
 
-      - name: Prepare Android release
-        if: matrix.os == 'android'
-        env:
-          ANDROID_KEYSTORE: ${{ secrets.ANDROID_KEYSTORE }}
-          ANDROID_STORE_PASS: ${{ secrets.ANDROID_STORE_PASS }}
-          ANDROID_KEY_PASS: ${{ secrets.ANDROID_KEY_PASS }}
-          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
-          PLAYSTORE_DEPLOY_KEY: ${{ secrets.PLAYSTORE_DEPLOY_KEY }}
-        run: ../scripts/prepare-android-release.sh
-        working-directory: ${{ matrix.os }}
+  #     - name: Prepare Android release
+  #       if: matrix.os == 'android'
+  #       env:
+  #         ANDROID_KEYSTORE: ${{ secrets.ANDROID_KEYSTORE }}
+  #         ANDROID_STORE_PASS: ${{ secrets.ANDROID_STORE_PASS }}
+  #         ANDROID_KEY_PASS: ${{ secrets.ANDROID_KEY_PASS }}
+  #         ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+  #         PLAYSTORE_DEPLOY_KEY: ${{ secrets.PLAYSTORE_DEPLOY_KEY }}
+  #       run: ../scripts/prepare-android-release.sh
+  #       working-directory: ${{ matrix.os }}
 
-      - name: Prepare iOS release
-        if: matrix.os == 'ios'
-        run: ../scripts/prepare-ios.sh
-        working-directory: ${{ matrix.os }}
+  #     - name: Prepare iOS release
+  #       if: matrix.os == 'ios'
+  #       run: ../scripts/prepare-ios.sh
+  #       working-directory: ${{ matrix.os }}
 
-      - name: Release on Play Store internal track
-        if: matrix.os == 'android'
-        run: ../scripts/release-playstore-beta.sh
-        working-directory: ${{ matrix.os }}
+  #     - name: Release on Play Store internal track
+  #       if: matrix.os == 'android'
+  #       run: ../scripts/release-playstore-beta.sh
+  #       working-directory: ${{ matrix.os }}
 
-      - name: Release on TestFlight
-        if: matrix.os == 'ios'
-        env:
-          APPLE_CERTIFICATES_SSH_KEY: ${{ secrets.APPLE_CERTIFICATES_SSH_KEY }}
-          APPLE_KEY_ID: ${{ secrets.APPLE_KEY_ID }}
-          APPLE_ISSUER_ID: ${{ secrets.APPLE_ISSUER_ID }}
-          APPLE_KEY_CONTENT: ${{ secrets.APPLE_KEY_CONTENT }}
-          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-        run: ../scripts/release-ios-testflight.sh
-        working-directory: ${{ matrix.os }}
+  #     - name: Release on TestFlight
+  #       if: matrix.os == 'ios'
+  #       env:
+  #         APPLE_CERTIFICATES_SSH_KEY: ${{ secrets.APPLE_CERTIFICATES_SSH_KEY }}
+  #         APPLE_KEY_ID: ${{ secrets.APPLE_KEY_ID }}
+  #         APPLE_ISSUER_ID: ${{ secrets.APPLE_ISSUER_ID }}
+  #         APPLE_KEY_CONTENT: ${{ secrets.APPLE_KEY_CONTENT }}
+  #         MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+  #       run: ../scripts/release-ios-testflight.sh
+  #       working-directory: ${{ matrix.os }}
 
   package_desktop:
     name: Package app on desktops
@@ -149,7 +149,7 @@ jobs:
         run: |
           case "$RUNNER_OS" in
             Linux)
-              cp dist/*/* "twake-$GITHUB_REF_NAME-linux-amd64.AppImage";;
+              cp dist/*/* "twake-$GITHUB_REF_NAME-linux-amd64.zip";;
             macOS)
               cp dist/*/* "twake-$GITHUB_REF_NAME-macos-amd64.dmg"
               # Notarize the app
