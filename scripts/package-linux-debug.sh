@@ -7,4 +7,4 @@ chmod +x appimagetool
 sudo mv appimagetool /usr/local/bin/
 
 echo "Packaging."
-flutter pub global run flutter_distributor:main.dart package --platform linux --targets appimage --skip-clean --flutter-build-args="profile"
+flutter pub global run flutter_distributor:main.dart package --platform linux --targets appimage --flutter-build-args="profile"
