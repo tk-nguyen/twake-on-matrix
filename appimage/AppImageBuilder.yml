@@ -2,15 +2,15 @@
 script:
   - rm -rf AppDir | true
   - cp -r ./build/linux/x64/{{BUILD_TYPE}}/bundle AppDir
-  - mkdir -p AppDir/usr/share/icons/hicolor/64x64/apps/
-  - cp ./assets/logo.svg AppDir/usr/share/icons/hicolor/64x64/apps/twake.svg
+  - mkdir -p AppDir/usr/share/icons/
+  - cp ./assets/logo.png AppDir/usr/share/icons/twake.png
 version: 1
 AppDir:
   path: ./AppDir
   app_info:
     id: com.linagora.linux.twake
     name: Twake
-    icon: twake.svg
+    icon: twake
     version: latest
     exec: fluffychat
     exec_args: $@
