@@ -2,8 +2,8 @@
 script:
   - rm -rf AppDir | true
   - cp -r ./build/linux/x64/{{BUILD_TYPE}}/bundle AppDir
-  - mkdir -p AppDir/usr/share/icons/
-  - cp ./assets/logo.png AppDir/usr/share/icons/twake.png
+  - mkdir -p AppDir/usr/share/icons/hicolor/64x64/apps/
+  - cp ./assets/logo.svg AppDir/usr/share/icons/hicolor/64x64/apps/twake.svg
 version: 1
 AppDir:
   path: ./AppDir
@@ -28,10 +28,13 @@ AppDir:
       - sourceline: deb http://azure.archive.ubuntu.com/ubuntu {{VERSION_CODENAME}}-security main restricted universe multiverse
         key_url: "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x871920D1991BC93C"
     include:
+      - libgtk-3-0
+      - libwayland-cursor0
       - libc6
       - libjsoncpp25
       - libsecret-1-0
       - libmpv1
+      - libdrm2
       - libolm3
   files:
     include: []
