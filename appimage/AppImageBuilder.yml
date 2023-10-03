@@ -1,0 +1,76 @@
+# appimage-builder recipe see https://appimage-builder.readthedocs.io for details
+script:
+  - rm -rf AppDir | true
+  - cp -r ./build/linux/x64/{{BUILD_TYPE}}/bundle AppDir
+  - mkdir -p AppDir/usr/share/icons/hicolor/64x64/apps/
+  - cp ./assets/logo.svg AppDir/usr/share/icons/hicolor/64x64/apps/twake.svg
+version: 1
+AppDir:
+  path: ./AppDir
+  app_info:
+    id: com.linagora.linux.twake
+    name: Twake
+    icon: twake.svg
+    version: latest
+    exec: fluffychat
+    exec_args: $@
+  apt:
+    arch:
+      - amd64
+    allow_unauthenticated: true
+    sources:
+      - sourceline: deb http://archive.ubuntu.com/ubuntu {{VERSION_CODENAME}} main restricted
+        key_url: "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x871920D1991BC93C"
+      - sourceline: deb http://archive.ubuntu.com/ubuntu {{VERSION_CODENAME}}-updates main restricted
+        key_url: "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x871920D1991BC93C"
+      - sourceline: deb http://archive.ubuntu.com/ubuntu {{VERSION_CODENAME}} universe
+        key_url: "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x871920D1991BC93C"
+      - sourceline: deb http://archive.ubuntu.com/ubuntu {{VERSION_CODENAME}}-updates universe
+        key_url: "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x871920D1991BC93C"
+      - sourceline: deb http://archive.ubuntu.com/ubuntu {{VERSION_CODENAME}} multiverse
+        key_url: "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x871920D1991BC93C"
+      - sourceline: deb http://archive.ubuntu.com/ubuntu {{VERSION_CODENAME}}-updates multiverse
+        key_url: "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x871920D1991BC93C"
+      - sourceline:
+          deb http://archive.ubuntu.com/ubuntu {{VERSION_CODENAME}}-backports main restricted
+          universe multiverse
+        key_url: "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x871920D1991BC93C"
+      - sourceline: deb http://archive.ubuntu.com/ubuntu {{VERSION_CODENAME}}-security main restricted
+        key_url: "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x871920D1991BC93C"
+      - sourceline: deb http://archive.ubuntu.com/ubuntu {{VERSION_CODENAME}}-security universe
+        key_url: "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x871920D1991BC93C"
+      - sourceline: deb http://archive.ubuntu.com/ubuntu {{VERSION_CODENAME}}-security multiverse
+        key_url: "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x871920D1991BC93C"
+    include:
+      - libc6
+      - libjsoncpp25
+      - libsecret-1-0
+      - libmpv2
+      - libolm3
+  files:
+    include: []
+    exclude:
+      - usr/share/man
+      - usr/share/doc/*/README.*
+      - usr/share/doc/*/changelog.*
+      - usr/share/doc/*/NEWS.*
+      - usr/share/doc/*/TODO.*
+  test:
+    fedora-30:
+      image: appimagecrafters/tests-env:fedora-30
+      command: ./AppRun
+    debian-stable:
+      image: appimagecrafters/tests-env:debian-stable
+      command: ./AppRun
+    archlinux-latest:
+      image: appimagecrafters/tests-env:archlinux-latest
+      command: ./AppRun
+    centos-7:
+      image: appimagecrafters/tests-env:centos-7
+      command: ./AppRun
+    ubuntu-xenial:
+      image: appimagecrafters/tests-env:ubuntu-bionic
+      command: ./AppRun
+AppImage:
+  arch: x86_64
+  update-information: guess
