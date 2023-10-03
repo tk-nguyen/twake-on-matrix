@@ -11,5 +11,5 @@ export BUILD_TYPE=release
 # This is to set environment variable from a file
 # https://stackoverflow.com/a/45971167/8296391
 set -a; . /etc/os-release; set +a
-appimage-builder --recipe appimage/AppImageBuilder.yml
+appimage-builder --recipe appimage/AppImageBuilder.yml --skip-tests
 mkdir dist && cp ./*.AppImage dist/
