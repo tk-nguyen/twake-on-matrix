@@ -2,11 +2,8 @@
 echo "Setup Linux dependencies"
 sudo apt-get install -y clang cmake ninja-build \
                         pkg-config libgtk-3-dev liblzma-dev \
-                        libjsoncpp-dev locate libfuse-dev \
+                        libjsoncpp-dev libfuse-dev \
                         libolm-dev libmpv-dev libsecret-1-dev
-
-# Updating database of locate
-sudo updatedb
 
 flutter config --enable-linux-desktop
 flutter clean
