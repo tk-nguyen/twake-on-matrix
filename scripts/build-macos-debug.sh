@@ -6,4 +6,3 @@ cd macos
 bundle exec fastlane sync_dev
 pod install --repo-update
 pod update
-flutter build macos --profile -v
