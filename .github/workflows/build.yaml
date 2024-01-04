@@ -1,7 +1,10 @@
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "0 11 * * *"
+  workflow_run:
+    workflows:
+      - "Tests"
+    types:
+      - completed
 
 name: Build
 
@@ -12,6 +15,7 @@ env:
 jobs:
   build_debug_mobile:
     name: Build debug version for mobiles
+    if: github.event.workflow_run.conclusion == 'success'
     runs-on: ${{ matrix.runner }}
     strategy:
       matrix:
@@ -87,6 +91,7 @@ jobs:
 
   build_debug_desktop:
     name: Build debug version for desktops
+    if: github.event.workflow_run.conclusion == 'success'
     runs-on: ${{ matrix.runner }}
     strategy:
       matrix:
