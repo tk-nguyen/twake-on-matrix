@@ -87,6 +87,9 @@ jobs:
           APPLE_ISSUER_ID: ${{ secrets.APPLE_ISSUER_ID }}
           APPLE_KEY_CONTENT: ${{ secrets.APPLE_KEY_CONTENT }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          REGISTRATION_URL: ${{ secrets.REGISTRATION_URL }}
+          TWAKE_WORKPLACE_HOMESERVER: ${{ secrets.TWAKE_WORKPLACE_HOMESERVER }}
+          PLATFORM: ${{ secrets.PLATFORM }}
         run: ../scripts/release-ios-testflight.sh
         working-directory: ${{ matrix.os }}
 

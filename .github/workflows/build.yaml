@@ -63,18 +63,17 @@ jobs:
 
       - name: Build debug APK
         if: matrix.os == 'android'
-        run: |
-          ./scripts/build-android-debug.sh
-          cp build/app/outputs/apk/debug/app-debug.apk twake-on-matrix-debug.apk
+        run: ./scripts/build-android-debug.sh
 
       - name: Build debug IPA
         if: matrix.os == 'ios'
         env:
           APPLE_CERTIFICATES_SSH_KEY: ${{ secrets.APPLE_CERTIFICATES_SSH_KEY }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-        run: |
-          bundle exec fastlane dev
-          cp Runner.ipa ../Runner.ipa
+          REGISTRATION_URL: ${{ secrets.REGISTRATION_URL }}
+          TWAKE_WORKPLACE_HOMESERVER: ${{ secrets.TWAKE_WORKPLACE_HOMESERVER }}
+          PLATFORM: ${{ secrets.PLATFORM }}
+        run: ../scripts/build-ios-debug.sh
         working-directory: ${{ matrix.os }}
 
       - name: Upload artifacts
