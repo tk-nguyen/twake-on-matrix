@@ -78,7 +78,7 @@ jobs:
         working-directory: ${{ matrix.os }}
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: twake-on-matrix-dev-${{ matrix.os }}
           path: |
@@ -140,7 +140,7 @@ jobs:
         shell: bash
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: twake-on-matrix-dev-${{ matrix.os }}
           path: dist/

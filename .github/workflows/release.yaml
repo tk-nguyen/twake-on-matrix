@@ -94,7 +94,7 @@ jobs:
         if: matrix.os == 'android'
         run: ./scripts/release-android-apk.sh
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v3
         if: matrix.os == 'android'
         with:
           name: twake-release
@@ -175,7 +175,7 @@ jobs:
           esac
         shell: bash
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v3
         with:
           name: twake-release-${{ matrix.os }}
           path: twake-${{ github.ref_name }}*
