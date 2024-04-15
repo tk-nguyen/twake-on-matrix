@@ -6,4 +6,8 @@ cd macos
 bundle exec fastlane sync_dev
 pod install --repo-update
 pod update
-flutter build macos --profile -v
+flutter build macos --profile -v \
+                    --dart-define=REGISTRATION_URL="$REGISTRATION_URL" \
+                    --dart-define=TWAKE_WORKPLACE_HOMESERVER="$TWAKE_WORKPLACE_HOMESERVER" \
+                    --dart-define=PLATFORM="$PLATFORM" \
+                    --dart-define=HOME_SERVER="$TWAKE_WORKPLACE_HOMESERVER"

@@ -9,4 +9,8 @@ sudo apt-get install -y clang cmake ninja-build \
 flutter config --enable-linux-desktop
 flutter clean
 flutter pub get && flutter pub run build_runner build --delete-conflicting-outputs
-flutter build linux --release -v
+flutter build linux --release -v \
+                    --dart-define=REGISTRATION_URL="$REGISTRATION_URL" \
+                    --dart-define=TWAKE_WORKPLACE_HOMESERVER="$TWAKE_WORKPLACE_HOMESERVER" \
+                    --dart-define=PLATFORM="$PLATFORM" \
+                    --dart-define=HOME_SERVER="$TWAKE_WORKPLACE_HOMESERVER"

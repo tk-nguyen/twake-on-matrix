@@ -152,6 +152,9 @@ jobs:
         env:
           APPLE_CERTIFICATES_SSH_KEY: ${{ secrets.APPLE_CERTIFICATES_SSH_KEY }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          REGISTRATION_URL: ${{ secrets.REGISTRATION_URL }}
+          TWAKE_WORKPLACE_HOMESERVER: ${{ secrets.TWAKE_WORKPLACE_HOMESERVER }}
+          PLATFORM: ${{ secrets.PLATFORM }}
         run: ./scripts/build-${{ matrix.os }}.sh
         shell: bash
 
